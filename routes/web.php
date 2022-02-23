@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MenuController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+/*Route::get('/employee', function () {
+    return view('employee.index');
+})->middleware(['auth'])->name('employee');*/
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group(['middleware'=>['auth']], function() {
+    Route::get('/dashboard',[MenuController::class, 'index'])->name('dashboard');
+});
+
+//Route::get('/treatment',[MenuController::class, 'routeTreatment'])->name('treatment');
+Route::get('/treatment', function () {
+    return view('treatment.index');
+});
+
+Route::get('/menu', function () {
+    return view('/menu');
+});
+
+require __DIR__.'/auth.php';

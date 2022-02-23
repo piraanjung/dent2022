@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -37,4 +39,19 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function login(Request $request)
+    {
+        $this->validate($request, [
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+        dd($request);
+        $user = DB::table('users')->where('username', $request->input('username'))->first();
+        if ($user->hasRole('superadministrator') || $user->hasRole('twman') || $user->hasRole('administrator')) {
+            return redirect('/admin');
+        }
+        return redirect('/');
+    }
+
 }
