@@ -7,6 +7,9 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -28,6 +31,21 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
+        // $this->validate($request, [
+        //     'email' => 'required',
+        //     'password' => 'required',
+        // ]);
+        //dd($request);
+         //$user = User::where('email', $request->input('email'))->get();
+         $user = DB::table('users')->where('email', $request->input('email'))->first();
+         if (Hash::check($request->input('password'), $user->password)) {
+            // if ($user->hasRole('admin')) {
+            return redirect('/menu');
+            // }
+        }
+        dd($user);
+        
+        return redirect('/');
         $request->authenticate();
 
         $request->session()->regenerate();

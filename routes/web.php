@@ -35,4 +35,6 @@ Route::get('/menu', function () {
     return view('/menu');
 });
 
+
+
 require __DIR__.'/auth.php';

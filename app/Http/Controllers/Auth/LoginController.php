@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+
 
 class LoginController extends Controller
 {
@@ -48,9 +50,7 @@ class LoginController extends Controller
         ]);
         dd($request);
         $user = DB::table('users')->where('username', $request->input('username'))->first();
-        if ($user->hasRole('superadministrator') || $user->hasRole('twman') || $user->hasRole('administrator')) {
-            return redirect('/admin');
-        }
+        
         return redirect('/');
     }
 
