@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('room_name', 20);
-            $table->string('status', 20);
+            $table->string('room_name')->nullable();
+            $table->enum('status', ['active', 'inactive', 'deleted'])->default('active');
             $table->timestamps();
         });
     }
