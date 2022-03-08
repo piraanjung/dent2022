@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('treatments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('treatment_name')->nullable();
-            $table->integer('price')->nullable();
-            $table->text('description')->nullable();
             $table->string('sub_category')->nullable();
+            $table->integer('price')->nullable();
             $table->string('priority')->nullable();
-            $table->enum('deleted', ['active', 'inactive', 'deleted'])->default('active');
+            $table->text('description')->nullable();
+            $table->enum('status', ['active', 'inactive', 'deleted'])->default('active');
             $table->enum('deleted', ['0', '1'])->default('0');
             $table->timestamps();
         });
