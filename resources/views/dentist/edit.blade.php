@@ -1,7 +1,7 @@
 @extends('layouts.admin_lte')
 
 @section('page-title')
-    เพิ่มข้อมูลส่วนตัวหมอ
+    แก้ไขข้อมูลส่วนตัว {{ $dentist->dentist_name }}
 @endsection
 
 @section('content')
@@ -22,24 +22,25 @@
         {{-- <h3 class="card-title">เพิ่มรายการรักษา</h3> --}}
     </div>
     
-    <form action="{{ route('dentist.update') }}" method="POST">
+    <form action="{{ route('dentist.update', $dentist->id) }}" method="POST">
+        {{ method_field('patch') }}
         {{ csrf_field() }}
         <div class="card-body">
             <div class="form-group">
                 <label for="dentist_name">ชื่อ-สกุล</label>
-                <input type="text" class="form-control" name="dentist_name" required>
+                <input type="text" class="form-control" value="{{ $dentist->dentist_name }}" name="dentist_name" required>
             </div>
             <div class="form-group">
                 <label for="phone">เบอร์โทร</label>
-                <input type="tel" class="form-control" name="phone" required>
+                <input type="tel" class="form-control" value="{{ $dentist->phone }}" name="phone" required>
             </div>
             <div class="form-group">
                 <label for="email">อีเมล</label>
-                <input type="email" class="form-control" name="email" required>
+                <input type="email" class="form-control" value="{{ $dentist->email }}" name="email" required>
             </div>
             <div class="form-group">
                 <label for="image">รูปภาพ</label>
-                <input type="text" class="form-control" name="image" required>
+                <input type="text" class="form-control" value="{{ $dentist->image }}" name="image" required>
             </div>
             <button type="submit" class="btn btn-info">บันทึก</button>
         </div>

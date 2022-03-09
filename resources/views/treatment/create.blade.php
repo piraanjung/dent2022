@@ -1,9 +1,5 @@
 @extends('layouts.admin_lte')
 
-@section('my-css')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-@endsection
-
 @section('page-title')
     เพิ่มรายการรักษา
 @endsection
@@ -20,14 +16,12 @@
     </ul>
 </div>
 @endif
-
 <div class="card card-info">
     <div class="card-header">
         {{-- <h3 class="card-title">เพิ่มรายการรักษา</h3> --}}
     </div>
     
-    <form action="{{ route('treatment.store') }}" method="POST">
-        {{ method_field('patch') }}
+    <form action="{{ route('treatment.store') }}" method="post">
         {{ csrf_field() }}
         <div class="card-body">
             <div class="row">
@@ -68,19 +62,9 @@
                     </div>
                 </div>
             </div>
-            <button href="{{route ('treatment.store') }}" type="submit" class="btn btn-info">บันทึก</button>
+            <button type="submit" class="btn btn-info">บันทึก</button>
         </div>
     </form>
 </div>
-@endsection
-
-@section('my-script')
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            $('#treatment-table').DataTable();
-        });
-    </script>
-@endsection                       
+@endsection                    
 

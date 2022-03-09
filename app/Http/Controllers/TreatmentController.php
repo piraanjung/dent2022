@@ -99,9 +99,17 @@ class TreatmentController extends Controller
             'priority' => 'required',
             'description' => 'required'
         ]);
-        $user = Treatment::find($id);
+        // $treatment = Treatment::find($id);
 
-        $user->update($request->all());
+        $data = array(
+            'treatment_name' => $request->treatment_name,
+            'sub_category' => $request->sub_category,
+            'price' => $request->price,
+            'priority' => $request->priority,
+            'description' => $request->description,
+            'updated_at' => date('Y-m-d H:i:s'),
+        );
+        DB::table('treatments')->where('id', $id)->update($data);
 
         return redirect()->route('treatment.index')
                          ->with('success', 'Treatment updated successfully.');

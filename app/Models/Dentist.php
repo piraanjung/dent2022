@@ -9,12 +9,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Dentist extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
     protected $fillable = [
         'dentist_name',
         'phone',
         'email',
         'image',
+        'status',
+        'deleted',
+        'employee_id',
+        'room_id',
     ];
 }

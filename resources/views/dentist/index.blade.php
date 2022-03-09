@@ -92,27 +92,37 @@
                 </div>
             </div>
         </div> --}}
+
+        @foreach ($data as $dentist)
         <div class="callout callout-info">
+            <div align="end" style="margin-bottom: 10px">
+                <a href="{{ route('dentist.edit', $dentist->id) }}" class="btn btn-secondary">
+                    <i class="fa fa-edit"></i>
+                    แก้ไข
+                </a>
+                <a href="" class="btn btn-danger delete-confirm" role="button">ลบ</a>
+            </div>
+
             <div class="row">
                 <div class="col-3" style="display: flex; justify-content: center; align-items: center;">
-                    <img class="mx-auto d-block img-fluid" src="http://www.smileprofiledental.com/wp-content/uploads/2019/04/doctor.png" alt="dentist" width="150">
+                    <img class="mx-auto d-block img-fluid" src="{{ $dentist->image }}" alt="dentist" width="150">
                 </div>
                 <div class="col-3" style="display: flex;align-items: center;">
                     <div class="row">
                         <ul class="ml-4 mb-0 fa-ul text-muted">
                             <li class="small">
-                                <span class="fa-li" style="margin-top: 5px"><i class="fas fa-lg fa-user"></i></span>
-                                <h4>หมอโย</h4>
+                                <span class="fa-li" style="margin-top: 8px"><i class="fas fa-lg fa-user"></i></span>
+                                <h4>{{ $dentist->dentist_name }}</h4>
                             </li>
                             <br>
                             <li class="small">
-                                <span class="fa-li"><i class="fas fa-lg fa-phone"></i></span>
-                                Phone: test@gmail.com
+                                <span class="fa-li" style="margin-top: 1px"><i class="fas fa-lg fa-phone"></i></span>
+                                Phone: (+66) {{ Str::substr($dentist->phone, 1, 9) }}
                             </li>
                             <br>
                             <li class="small">
-                                <span class="fa-li"><i class="fas fa-lg fa-envelope"></i></span>
-                                Email: (+66)87 523 4512
+                                <span class="fa-li" style="margin-top: 2px"><i class="fas fa-lg fa-envelope"></i></span>
+                                Email: {{ $dentist->email }}
                             </li>
                         </ul>
                     </div>
@@ -135,41 +145,21 @@
                                     <tr>
                                         <td>1.</td>
                                         <td>Update software</td>
-                                        {{-- <td>
-                                            <div class="progress progress-xs">
-                                                <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                            </div>
-                                        </td> --}}
                                         <td align="center"><span class="badge bg-info">15</span></td>
                                     </tr>
                                     <tr>
                                         <td>2.</td>
                                         <td>Clean database</td>
-                                        {{-- <td>
-                                            <div class="progress progress-xs">
-                                                <div class="progress-bar bg-warning" style="width: 70%"></div>
-                                            </div>
-                                        </td> --}}
                                         <td align="center"><span class="badge bg-info">5</span></td>
                                     </tr>
                                     <tr>
                                         <td>3.</td>
                                         <td>Cron job running</td>
-                                        {{-- <td>
-                                            <div class="progress progress-xs progress-striped active">
-                                                <div class="progress-bar bg-primary" style="width: 30%"></div>
-                                            </div>
-                                        </td> --}}
                                         <td align="center"><span class="badge bg-info">10</span></td>
                                     </tr>
                                     <tr>
                                         <td>4.</td>
                                         <td>Fix and squish bugs</td>
-                                        {{-- <td>
-                                            <div class="progress progress-xs progress-striped active">
-                                                <div class="progress-bar bg-success" style="width: 90%"></div>
-                                            </div>
-                                        </td> --}}
                                         <td align="center"><span class="badge bg-info">10</span></td>
                                     </tr>
                                 </tbody>
@@ -180,8 +170,8 @@
                 </div>
             </div>
         </div>
+        @endforeach
     </div>
-    
 </div>
 
 @endsection

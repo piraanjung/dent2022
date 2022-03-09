@@ -5,7 +5,7 @@
 @endsection
 
 @section('page-title')
-    เพิ่มรายการรักษา
+    แก้ไขรายการรักษา
 @endsection
     
 @section('content')
