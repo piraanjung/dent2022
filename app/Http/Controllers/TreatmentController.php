@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Treatment;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TreatmentController extends Controller
 {
@@ -15,21 +16,8 @@ class TreatmentController extends Controller
      */
     public function index()
     {
-         $data = Treatment::get();
+        $data = Treatment::get();
         return view('treatment.index',compact('data'));
-        // if($request->search == ""){
-        //     $data = Treatment::orderBy('id','DESC')->paginate(5);
-        //     $roles = Role::pluck('name','name')->all();
-        //     return view('treatment.index',compact('data'))
-        //         ->with('i', ($request->input('page', 1) - 1) * 5);
-        // }else{
-        //     $data = Treatment::where('name', 'LIKE', '%' .$request->search.'%'
-        //     )->paginate(5);
-        //     $roles = Role::pluck('name','name')->all();
-        //     $data->appends($request->only('users.index'));
-        //     return view('treatment.index',compact('data'))
-        //         ->with('i', ($request->input('page', 1) - 1) * 5);
-        // }
     }
 
     /**
@@ -39,7 +27,7 @@ class TreatmentController extends Controller
      */
     public function create()
     {
-        //
+        return view('treatment.create');
     }
 
     /**
@@ -50,7 +38,6 @@ class TreatmentController extends Controller
      */
     public function store(Request $request)
     {
-        //dd('test');
         $this->validate($request,[
             'treatment_name' => 'required',
             'sub_category' => 'required',
@@ -64,8 +51,8 @@ class TreatmentController extends Controller
         $treatment->treatment_name = $request->input('treatment_name');
         $treatment->sub_category = $request->input('sub_category');
         $treatment->price = $request->input('price');
-        $treatment->description = $request->input('description');
         $treatment->priority = $request->input('priority');
+        $treatment->description = $request->input('description');
         $treatment->status = "active";
 
         $treatment->save();
@@ -81,7 +68,7 @@ class TreatmentController extends Controller
      */
     public function show($id)
     {
-        return view('treatment.show', compact('post'));
+        // return view('treatment.show', compact('post'));
     }
 
     /**
@@ -92,7 +79,8 @@ class TreatmentController extends Controller
      */
     public function edit($id)
     {
-        return view('treatment.edit', compact('post'));
+        $treatment = Treatment::find($id);
+        return view('treatment.edit', compact('treatment'));
     }
 
     /**
@@ -108,11 +96,10 @@ class TreatmentController extends Controller
             'treatment_name' => 'required',
             'sub_category' => 'required',
             'price' => 'required',
-            'description' => 'required',
-            'priority' => 'required'
+            'priority' => 'required',
+            'description' => 'required'
         ]);
         $user = Treatment::find($id);
-        //dd($user);
 
         $user->update($request->all());
 
@@ -128,10 +115,17 @@ class TreatmentController extends Controller
      */
     public function destroy($id)
     {
-        $user = Treatment::find($id);
-        $user->delete();
+        return "Success";
+        // DB::table('treatments')->where('id', $id)->delete();
+        // $treatment = Treatment::find($id);
+        
+        // $treatment->deleted = "1";
+        // $treatment->status = "deleted";
+        // $treatment->updated_at = date('Y-m-d H:i:s');
 
-        return redirect()->route('treatment.index')
-                         ->with('success', 'Treatment deleted successfully.');
+        // $treatment->save();
+
+        // return redirect()->route('treatment.index')
+        //                  ->with('success', 'Treatment deleted successfully.');
     }
 }

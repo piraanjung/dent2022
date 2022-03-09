@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('employee_name', 50);
-            $table->string('status', 20);
+            $table->string('employee_name')->nullable();
+            $table->enum('status', ['active', 'inactive', 'deleted'])->default('active');
+            $table->enum('deleted', ['0', '1'])->default('0');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

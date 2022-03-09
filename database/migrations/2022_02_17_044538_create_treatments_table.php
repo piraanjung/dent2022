@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('treatment_name')->nullable();
             $table->string('sub_category')->nullable();
-            $table->integer('price')->nullable();
+            $table->integer('price', 11)->nullable();
             $table->string('priority')->nullable();
             $table->text('description')->nullable();
             $table->enum('status', ['active', 'inactive', 'deleted'])->default('active');

@@ -13,7 +13,7 @@ class DentistController extends Controller
      */
     public function index()
     {
-        //
+        return view('dentist.index');
     }
 
     /**

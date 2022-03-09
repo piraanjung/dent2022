@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DentistController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\TreatmentController;
 use Illuminate\Support\Facades\Route;
@@ -28,21 +29,21 @@ Route::group(['middleware'=>['auth']], function() {
 });
 
 //Route::get('/treatment',[TreatmentController::class, 'index'])->name('treatment');
-Route::get('/treatment', function () {
-    return view('/treatment.index');
-});
+// Route::get('/treatment', function () {
+//     return view('/treatment.index');
+// });
 
-Route::get('/dentist', function () {
-    return view('/dentist.index');
-});
+// Route::get('/dentist', function () {
+//     return view('/dentist.index');
+// });
 
-Route::get('/dentist.create', function () {
-    return view('/dentist.create');
-});
-
-Route::post('/treatment.store',[TreatmentController::class, 'store'])->name('addTreatment');
+// Route::get('/dentist.create', function () {
+//     return view('/dentist.create');
+// });
 
 Route::resource('treatment', TreatmentController::class);
+Route::resource('dentist', DentistController::class);
+
 
 Route::get('/menu', function () {
     return view('/menu');
