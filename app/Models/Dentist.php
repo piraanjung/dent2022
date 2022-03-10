@@ -20,4 +20,8 @@ class Dentist extends Model
         'employee_id',
         'room_id',
     ];
+
+    public function treatment_skill_ratio(){
+        return $this->hasMany(Treatment_skill_ratio::class, 'dentist_id', 'id');
+    }
 }

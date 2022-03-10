@@ -10,6 +10,12 @@
 @endsection
 
 @section('content')
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            {{ $message }}
+        </div>
+    @endif
+    
     <div class="card">
         <div class="card-header">
             <a href="{{ route('treatment.create') }}" class="btn btn-info me-md-2 float-right">เพิ่มใหม่</a>
@@ -25,7 +31,7 @@
                         <th width="280px"></th>
                     </tr>
                 </thead>
-                    <?php $i =0;?>
+                <?php $i =0;?>
                 @foreach ($data as $key => $value)
                     <tr>
                         <td>{{ ++$i }}</td>
@@ -36,8 +42,8 @@
                             <a href="{{ route('treatment.edit', $value->id) }}" class="btn btn-secondary">
                                 <i class="fa fa-edit"></i>
                                 แก้ไข
-                            </a>
-                            <a href="/treatment/{{$value->id}}" class="btn btn-danger delete-confirm" role="button">ลบ</a>
+                            </a><!--treatment-delete/$value->id}}-->
+                            <a href="/treatment-delete/ $value->id }}" class="btn btn-danger delete-confirm" role="button">ลบ</a>
                             {{-- <button class="btn btn-danger delete-confirm" onclick="deleteItem(this)" data-id="{{ $value->id }}" data-action="{{ route('treatment.destroy',$value->id) }}" onclick="deleteConfirmation({{$value->id}})">ลบ</button> --}}
                             {{-- <a href="{{ route('treatment.destroy', $value->id) }}" class="btn btn-danger delete-confirm">
                                 <i class="fa fa-trash"></i>
@@ -52,10 +58,11 @@
 @endsection
 
 @section('my-script')
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
+
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <!-- SweetAlert CDN -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -75,11 +82,34 @@
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
-           }).then(function(value) {
-           if (value) {
-           window.location.href = url;
-         }
-       });
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log('res', result)
+                Swal.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+                )
+                setTimeout(() => {
+                    window.location.href = url;
+                }, 500);
+               // window.location.href = url;
+            }
+            
+        })
+    //    Swal.fire({
+    //         title: 'Are you sure?',
+    //         text: "You won't be able to revert this!",
+    //         icon: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#3085d6',
+    //         cancelButtonColor: '#d33',
+    //         confirmButtonText: 'Yes, delete it!'
+    //        }).then(function(value) {
+    //        if (value) {
+    //        window.location.href = url;
+    //      }
+    //    });
       });
  </script>
 

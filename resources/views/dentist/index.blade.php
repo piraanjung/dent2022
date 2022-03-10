@@ -136,32 +136,27 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th style="width: 10px">#</th>
+                                        {{-- <th style="width: 10px">#</th> --}}
                                         <th style="width: 45%">รายการรักษา</th>
                                         <th>อัตราส่วนเวลาต่อการรักษา(1:นาที)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1.</td>
-                                        <td>Update software</td>
-                                        <td align="center"><span class="badge bg-info">15</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>2.</td>
-                                        <td>Clean database</td>
-                                        <td align="center"><span class="badge bg-info">5</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>3.</td>
-                                        <td>Cron job running</td>
-                                        <td align="center"><span class="badge bg-info">10</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>4.</td>
-                                        <td>Fix and squish bugs</td>
-                                        <td align="center"><span class="badge bg-info">10</span></td>
-                                    </tr>
+                                    @php
+                                        $i = 0;
+                                    @endphp
+                                    @foreach ($skill as $key => $value)
+                                    @if ($value->dentist_id === $dentist->id)
+                                        <tr>
+                                            {{-- <td>{{ ++$i }}</td> --}}
+                                            <td>{{ $value->skill_name }}</td>
+                                            <td align="center">
+                                                <span class="badge bg-info">{{ $value->time_spent }}</span>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                    
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

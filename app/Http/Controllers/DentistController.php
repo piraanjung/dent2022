@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dentist;
+use App\Models\Treatment_skill_ratio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +17,8 @@ class DentistController extends Controller
     public function index()
     {
         $data = Dentist::get();
-        return view('dentist.index', compact('data'));
+        $skill = Treatment_skill_ratio::get();
+        return view('dentist.index', compact('data', 'skill'));
     }
 
     /**
@@ -79,7 +81,8 @@ class DentistController extends Controller
     public function edit($id)
     {
         $dentist = Dentist::find($id);
-        return view('dentist.edit', compact('dentist'));
+        $skill = DB::table('treatment_skill_ratios')->where('dentist_id', $id)->get();
+        return view('dentist.edit', compact('dentist', 'skill'));
     }
 
     /**

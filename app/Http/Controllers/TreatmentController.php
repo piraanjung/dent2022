@@ -16,7 +16,7 @@ class TreatmentController extends Controller
      */
     public function index()
     {
-        $data = Treatment::get();
+        $data = Treatment::where('status', "active")->get();
         return view('treatment.index',compact('data'));
     }
 
@@ -123,7 +123,8 @@ class TreatmentController extends Controller
      */
     public function destroy($id)
     {
-        return "Success";
+        dd("deleted");
+        //return "Success";
         // DB::table('treatments')->where('id', $id)->delete();
         // $treatment = Treatment::find($id);
         
@@ -133,7 +134,20 @@ class TreatmentController extends Controller
 
         // $treatment->save();
 
-        // return redirect()->route('treatment.index')
-        //                  ->with('success', 'Treatment deleted successfully.');
+        return redirect()->route('treatment.index')
+                         ->with('success', 'Treatment deleted successfully.');
+    }
+
+    public function delete($id)
+    {
+        //$deleted = DB::table('treatments')->where('id', $id)->get();
+        $data = array(
+            'status' => "deleted",
+            'deleted' => "1",
+            'updated_at' => date('Y-m-d H:i:s'),
+        );
+        DB::table('treatments')->where('id', $id)->update($data);
+        //$delete = Treatment::where('id', $id)->delete();
+        return redirect()->back();
     }
 }

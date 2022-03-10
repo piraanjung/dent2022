@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DentistController;
+use App\Http\Controllers\DentistSkillController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\TreatmentController;
 use Illuminate\Support\Facades\Route;
@@ -42,7 +43,13 @@ Route::group(['middleware'=>['auth']], function() {
 // });
 
 Route::resource('treatment', TreatmentController::class);
+
 Route::resource('dentist', DentistController::class);
+
+Route::resource('skill', DentistSkillController::class);
+Route::get('/skill/create/{id}', [DentistSkillController::class, 'skill_create']);
+
+Route::get('/treatment-delete/{id}', [TreatmentController::class, 'delete']);
 
 
 Route::get('/menu', function () {
