@@ -49,7 +49,9 @@ Route::resource('dentist', DentistController::class);
 Route::resource('skill', DentistSkillController::class);
 Route::get('/skill/create/{id}', [DentistSkillController::class, 'skill_create']);
 
+//Route deleted global
 Route::get('/treatment-delete/{id}', [TreatmentController::class, 'delete']);
+Route::get('/dentist-delete/{id}', [DentistController::class, 'delete']);
 
 
 Route::get('/menu', function () {

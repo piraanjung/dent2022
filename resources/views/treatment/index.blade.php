@@ -43,7 +43,7 @@
                                 <i class="fa fa-edit"></i>
                                 แก้ไข
                             </a><!--treatment-delete/$value->id}}-->
-                            <a href="/treatment-delete/ $value->id }}" class="btn btn-danger delete-confirm" role="button">ลบ</a>
+                            <a href="/treatment-delete/{{ $value->id }}" class="btn btn-danger delete-confirm" role="button">ลบ</a>
                             {{-- <button class="btn btn-danger delete-confirm" onclick="deleteItem(this)" data-id="{{ $value->id }}" data-action="{{ route('treatment.destroy',$value->id) }}" onclick="deleteConfirmation({{$value->id}})">ลบ</button> --}}
                             {{-- <a href="{{ route('treatment.destroy', $value->id) }}" class="btn btn-danger delete-confirm">
                                 <i class="fa fa-trash"></i>
@@ -84,33 +84,22 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                console.log('res', result)
-                Swal.fire(
-                'Deleted!',
-                'Your file has been deleted.',
-                'success'
-                )
+                // console.log('res', result)
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Your work has been deleted',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 setTimeout(() => {
                     window.location.href = url;
-                }, 500);
-               // window.location.href = url;
+                }, 1500);
+               window.location.href = url;
             }
             
-        })
-    //    Swal.fire({
-    //         title: 'Are you sure?',
-    //         text: "You won't be able to revert this!",
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonColor: '#3085d6',
-    //         cancelButtonColor: '#d33',
-    //         confirmButtonText: 'Yes, delete it!'
-    //        }).then(function(value) {
-    //        if (value) {
-    //        window.location.href = url;
-    //      }
-    //    });
-      });
+        });
+    });
  </script>
 
     {{-- <script type="application/javascript">

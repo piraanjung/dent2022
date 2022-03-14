@@ -49,7 +49,7 @@
                     </div>
                 </div>
             </div>
-            <input type="hidden" value="{{ $dent_id }}" name="dent_id">
+            <input type="hidden" value="{{ $dentist_id }}" name="dentist_id">
             <button type="submit" class="btn btn-info">บันทึก</button>
         </div><!--Card body-->
     </form>

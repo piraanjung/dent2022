@@ -29,7 +29,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>เวลาที่ใช้ในการรักษา <span style="font-size: 12px">(นาที)</span></label>
-                        <select class="form-control" name="skill_name">
+                        <select class="form-control" name="skill_name" disabled>
                             @foreach ($treatmentList as $key => $treatment)
                                 <option value="{{ $treatment->id }}" {{ $treatment->id == $skill[0]->treatment_id ? 'selected' : '' }}> 
                                     {{ $treatment->treatment_name }} 
@@ -52,6 +52,10 @@
                     </div>
                 </div>
             </div>
+
+            <input type="hidden" value="{{ $skill[0]->dentist_id }}" name="dentist_id">
+            <input type="hidden" value="{{ $skill[0]->dentist_name }}" name="dentist_name">
+            <input type="hidden" value="{{ $skill_id }}" name="skill_id">
             <button type="submit" class="btn btn-info">บันทึก</button>
         </div><!--Card body-->
     </form>

@@ -16,8 +16,15 @@ class DentistController extends Controller
      */
     public function index()
     {
-        $data = Dentist::get();
-        $skill = Treatment_skill_ratio::get();
+        $data = Dentist::where('status', "active")
+                        ->where('deleted', "0")
+                        ->get();
+        $skill = Treatment_skill_ratio::join('treatments', 'treatment_id', '=', 'treatments.id')
+                                        ->where('treatments.status', '=', 'active')
+                                        ->where('treatments.deleted', '=', '0')
+                                        ->get(['treatment_skill_ratios.*', 'treatments.treatment_name']);
+        
+        //return $skill;
         return view('dentist.index', compact('data', 'skill'));
     }
 
@@ -81,7 +88,14 @@ class DentistController extends Controller
     public function edit($id)
     {
         $dentist = Dentist::find($id);
-        $skill = DB::table('treatment_skill_ratios')->where('dentist_id', $id)->get();
+        $skill = DB::table('treatment_skill_ratios as skills')
+                    ->join('treatments', 'skills.treatment_id', '=', 'treatments.id')
+                    ->select('skills.*', 'treatment_name',)
+                    ->where('skills.dentist_id', '=', $dentist->id)
+                    ->where('treatments.status', '=', "active")
+                    ->where('treatments.deleted', '=', "0")
+                    ->get();
+        // return $skill;
         return view('dentist.edit', compact('dentist', 'skill'));
     }
 
@@ -124,5 +138,18 @@ class DentistController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function delete($id)
+    {
+        //$deleted = DB::table('treatments')->where('id', $id)->get();
+        $data = array(
+            'status' => "deleted",
+            'deleted' => "1",
+            'updated_at' => date('Y-m-d H:i:s'),
+        );
+        DB::table('dentists')->where('id', $id)->update($data);
+        //$delete = Treatment::where('id', $id)->delete();
+        return redirect()->back();
     }
 }

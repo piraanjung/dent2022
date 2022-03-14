@@ -100,7 +100,7 @@
                     <i class="fa fa-edit"></i>
                     แก้ไข
                 </a>
-                <a href="" class="btn btn-danger delete-confirm" role="button">ลบ</a>
+                <a href="/dentist-delete/{{ $dentist->id }}" class="btn btn-danger delete-confirm" role="button">ลบ</a>
             </div>
 
             <div class="row">
@@ -149,13 +149,12 @@
                                     @if ($value->dentist_id === $dentist->id)
                                         <tr>
                                             {{-- <td>{{ ++$i }}</td> --}}
-                                            <td>{{ $value->skill_name }}</td>
+                                            <td>{{ $value->treatment_name }}</td>
                                             <td align="center">
                                                 <span class="badge bg-info">{{ $value->time_spent }}</span>
                                             </td>
                                         </tr>
                                     @endif
-                                    
                                     @endforeach
                                 </tbody>
                             </table>
@@ -169,4 +168,42 @@
     </div>
 </div>
 
+@endsection
+
+@section('my-script')
+    <!-- SweetAlert CDN -->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    $('.delete-confirm').on('click', function (event) {
+       event.preventDefault();
+       const url = $(this).attr('href');
+       Swal.fire({
+            title: 'ยืนยันที่จะลบหมอคนนี้หรือไม่?',
+            text: "คุณจะไม่สามารถย้อนกลับได้!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'ยืนยัน',
+            cancelButtonText: 'ยกเลิก',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // console.log('res', result)
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'ลบหมอที่เลือกเรียบร้อยแล้ว',
+                    showConfirmButton: false,
+                    timer: 4000
+                })
+                setTimeout(() => {
+                    window.location.href = url;
+                }, 4500);
+               window.location.href = url;
+            }
+            
+        });
+    });
+ </script>
 @endsection

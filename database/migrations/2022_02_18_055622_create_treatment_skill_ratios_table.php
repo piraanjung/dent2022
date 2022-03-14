@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('treatment_skill_ratios', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('skill_name');
             $table->string('time_spent', 3);
             $table->enum('deleted', ['active', 'inactive', 'deleted'])->default('active');
             $table->enum('deleted', ['0', '1'])->default('0');

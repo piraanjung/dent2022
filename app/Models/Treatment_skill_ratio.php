@@ -10,7 +10,6 @@ class Treatment_skill_ratio extends Model
     use HasFactory;
 
     protected $fillable = [
-        'skill_name',
         'time_spent',
         'status',
         'deleted',

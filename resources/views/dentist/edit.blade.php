@@ -72,7 +72,7 @@
                     @foreach ($skill as $key => $skill)
                         <tr>
                             <td>{{ ++$i }}</td>
-                            <td>{{ $skill->skill_name }}</td>
+                            <td>{{ $skill->treatment_name }}</td>
                             <td>{{ $skill->time_spent }}</td>
                             <td>
                                 <a href="{{ route('skill.edit', $skill->id) }}" class="btn btn-secondary">

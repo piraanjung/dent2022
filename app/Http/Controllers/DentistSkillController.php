@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Redirect;
 
 class DentistSkillController extends Controller
 {
-    public $dentist_id;
     /**
      * Display a listing of the resource.
      *
@@ -34,18 +33,19 @@ class DentistSkillController extends Controller
 
     public function skill_create($id)
     {
-        $dent_id = $id;
+        $dentist_id = $id;
         $dentist = Dentist::with(['treatment_skill_ratio'=> function($query){
                             return $query->select('id', 'dentist_id', 'treatment_id');
                          }])
-                        ->where('id', $dent_id)
+                        ->where('id', $dentist_id)
                         ->get(['id']);
 
         $treatment_ratio_of_dentist =[];
         foreach($dentist[0]->treatment_skill_ratio as $treatment_ratio){
             array_push($treatment_ratio_of_dentist, $treatment_ratio->treatment_id);
         }
-         $treatmentList = DB::table('treatments')->get(['id', 'treatment_name']);
+        $treatmentList = Treatment::where(['status' => "active", 'deleted' => "0"])->get();
+        // return $treatmentList;
         // return $treatment_ratio_of_dentist;
          $treatmentList_filtered = collect($treatmentList)->filter(function($value) use($treatment_ratio_of_dentist){
             // dd($treatment_ratio_of_dentist);
@@ -53,31 +53,22 @@ class DentistSkillController extends Controller
         
          });
         // return $dentist[0]->treatment_skill_ratio;
-        return view('dentist.skill.create', compact('treatmentList_filtered', 'dent_id'));
+        return view('dentist.skill.create', compact('treatmentList_filtered', 'dentist_id'));
     }
 
    
     public function store(Request $request)
     {
-        $treatment_name = new Treatment;
-
-        $treatment = DB::table('treatments')->where('id', $request->id)->get();
-        foreach($treatment as $key => $value)
-        {
-            $treatment_name = $value->treatment_name;
-        }
-        
         $skill = new Treatment_skill_ratio;
 
-        $skill->skill_name = $treatment_name;
         $skill->time_spent = $request->input('time_spent');
         $skill->status = "active";
         $skill->treatment_id = $request->input('id');
-        $skill->dentist_id = $request->input('dent_id');;
+        $skill->dentist_id = $request->input('dentist_id');;
 
-        // $skill->save();
+        $skill->save();
 
-        return redirect()->route('dentist.edit', $request->input('dent_id'))->with('success', 'Skill created successfully.');
+        return redirect()->route('dentist.edit', $request->input('dentist_id'))->with('success', 'Skill created successfully.');
     }
 
     /**
@@ -88,7 +79,7 @@ class DentistSkillController extends Controller
      */
     public function show($id)
     {
-        $this->dentist_id = $id;
+        // $dentist_id = $id;
 
         $treatmentList = DB::table('treatments')->get();
 
@@ -103,19 +94,20 @@ class DentistSkillController extends Controller
      */
     public function edit($id)
     {
+        $skill_id = $id;
         $treatmentList = DB::table('treatments')->get();
         $skill = DB::table('treatment_skill_ratios as tsr')
         ->join('dentists as dt', 'dt.id', '=', 'tsr.dentist_id')
         ->join('treatments as tm', 'tm.id', '=', 'tsr.treatment_id')
         ->select(
-            'dt.id as dent_id', 'dt.dentist_name',
+            'dt.id as dentist_id', 'dt.dentist_name',
             'tsr.treatment_id', 'tsr.id', 'tsr.time_spent',
             'tm.treatment_name'
         )
         ->where('tsr.id', $id)->get();
         
         //return $skill;
-        return view('dentist.skill.edit', compact('skill', 'treatmentList'));
+        return view('dentist.skill.edit', compact('skill', 'treatmentList', 'skill_id'));
     }
 
     /**
@@ -127,7 +119,15 @@ class DentistSkillController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $request;
+        // return $request;
+        $data = array(
+            'time_spent' => $request->time_spent,
+            'updated_at' => date('Y-m-d H:i:s'),
+        );
+        DB::table('treatment_skill_ratios')->where('id', $id)->update($data);
+
+        return redirect()->route('dentist.edit', $request->input('dentist_id'))
+                         ->with('success', 'Treatment updated successfully.');
     }
 
     /**
@@ -140,4 +140,5 @@ class DentistSkillController extends Controller
     {
         //
     }
+
 }
